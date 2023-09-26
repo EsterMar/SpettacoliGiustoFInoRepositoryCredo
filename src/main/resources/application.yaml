@@ -1,0 +1,14 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8443/auth/realms/rendicontation/protocol/openid-connect/certs
+          issuer-uri: http://localhost:8443/auth/realms/rendicontation
+  datasource:
+    url: jdbc:postgresql://localhost:5432/spettacoliTeatrali
+    username: postgres
+    password: cROCARINAPAH2!
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
