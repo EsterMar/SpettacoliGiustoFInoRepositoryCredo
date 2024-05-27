@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name= "evento", schema= "spettacoliTeatali")
+@Table(name= "evento")
 public class Evento {
 
     @Id
@@ -42,4 +42,13 @@ public class Evento {
     @JoinColumn(name= "spettacolo")
     private Spettacolo spettacolo;
 
+    @Override
+    public String toString() {
+        return "Evento{" +
+                "id=" + id +
+                ", hours='" + hours + '\'' +
+                ", data=" + data +
+                ", posto=" + (posto != null ? posto.getId() : null) +
+                '}';
+    }
 }

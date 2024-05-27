@@ -13,10 +13,13 @@ public class ParamAddTicket {
     private Evento evento;
 
     @Valid
-    private Cliente cliente;
+    private Integer postoId;
 
     @Valid
-    private Posto posto;
+    private Cliente cliente;
+    @Valid
+    private float ticketPrice;
+
 
     public Evento getEvento() {
         return evento;
@@ -26,7 +29,7 @@ public class ParamAddTicket {
         return cliente;
     }
 
-    public Posto getPosto() {
-        return posto;
-    }
+    public int getPostoId() {return postoId;}
+    public float getTicketPrice() {return ticketPrice;}
+
 }

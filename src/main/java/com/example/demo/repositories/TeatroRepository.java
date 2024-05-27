@@ -9,8 +9,11 @@ import java.util.List;
 
 @Repository
 public interface TeatroRepository extends JpaRepository<Teatro, Integer> {
+
+    //corretto per forza
+
     List<Teatro> findAllBySpettacolo (Spettacolo spettacolo);
-    List<Teatro> findAllBySpettacoloAndCity (Spettacolo spettacolo, String city);
+    List<Teatro> findAllByCity (String city);
 
     boolean existsBySpettacolo (Spettacolo spettacolo);//quello spettacolo è in quel teatro?
 }

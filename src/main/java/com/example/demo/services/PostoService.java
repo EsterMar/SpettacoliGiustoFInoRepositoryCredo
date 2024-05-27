@@ -7,7 +7,9 @@ import com.example.demo.entities.Cliente;
 import com.example.demo.entities.Evento;
 import com.example.demo.entities.Posto;
 import com.example.demo.entities.Sala;
+import com.example.demo.repositories.EventoRepository;
 import com.example.demo.repositories.PostoRepository;
+import com.example.demo.repositories.SalaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,31 +25,54 @@ public class PostoService {
     private BigliettoService bigliettoService;
 
     @Autowired
+    private SalaRepository salaRepository;
+    @Autowired
     private EventoService eventoService;
 
     @Transactional(readOnly=true)
-    public int OccupiedSeats(Sala id_sala){
+    public int OccupiedSeats(Integer id_sala){
         return postoRepository.countOccupiedSeats(id_sala);
     }
 
-    @Transactional(readOnly=true)
-    public int FreeSeats (Sala id_sala){
-        return id_sala.getCapacity()- postoRepository.countOccupiedSeats(id_sala);
+    @Transactional(readOnly = true)
+    public Posto showAllSeatsById(int id_posto){
+        return postoRepository.findById(id_posto);
     }
+
+    @Transactional(readOnly=true)
+    public int FreeSeats(Integer id_sala){
+        Sala sala = salaRepository.findById(id_sala).orElse(null);
+        if (sala != null) {
+            return sala.getCapacity() - postoRepository.countOccupiedSeats(id_sala);
+        } else {
+            return 0; // ho un valore di default, se la sala non esiste
+        }
+    }
+
 
     @Transactional(readOnly=false)
     public Posto addSeat(ParamAddTicket pat) throws TheSeatIsNotAvailableException, TheEventIsSoldOutException {
        Evento id_evento = pat.getEvento();
-       Posto seat= pat.getPosto();
-       Cliente id_cliente= pat.getCliente();
+        // Recupera il posto dall'ID
+        Posto posto = postoRepository.findById(pat.getPostoId());
+        id_evento.setPosto(posto);
+        System.out.println("L'evento è: " + id_evento);
+        Cliente id_cliente= pat.getCliente();
+       System.out.println("Il cliente è: " + id_cliente);
+       System.out.println("Il posto dell'evento è il seguente: "+id_evento.getPosto().toString());
+       Posto seat= id_evento.getPosto();
+       System.out.println("Il posto salvato è il seguente: "+seat.toString());
+        float price= pat.getTicketPrice();
 
         if(!eventoService.isAvailable(id_evento.getId()))
             throw new TheEventIsSoldOutException();
         if (!seat.isAvailable()) {
             throw new TheSeatIsNotAvailableException();
         }
-        bigliettoService.chooseSeat(id_cliente, seat, id_evento);
+        bigliettoService.chooseSeat(id_cliente, seat, id_evento, price);
         return seat;
     }
+
+
 
 }

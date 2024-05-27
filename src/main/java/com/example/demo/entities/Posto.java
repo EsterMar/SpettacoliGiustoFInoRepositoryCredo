@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name= "posto", schema= "spettacoliTeatrali")
+@Table(name= "posto")
 public class Posto {
 
     @Id
@@ -45,4 +45,14 @@ public class Posto {
     @ManyToOne
     @JoinColumn(name= "sala")
     private Sala sala;
+
+    @Override
+    public String toString() {
+        return "Posto{" +
+                "id=" + id +
+                ", seat=" + seat +
+                ", row=" + row +
+                ", available=" + available +
+                '}';
+    }
 }

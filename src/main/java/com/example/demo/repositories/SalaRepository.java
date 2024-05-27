@@ -10,11 +10,13 @@ import java.util.List;
 
 @Repository
 public interface SalaRepository extends JpaRepository<Sala, Integer> {
+
+    //dovrebbe essere corretta
+
     List<Sala> findByZone (String zone);
+    Sala findById (int id_sala);
 
-    //boolean existsSalaBySpettacolo (Spettacolo id_spettacolo); //oppure va fatto in spettacolo? Credo di no
-
-    @Query("SELECT s FROM Sala s WHERE s.room_number IN (SELECT e.sala FROM Evento e WHERE e.spettacolo= ?1)")
+    @Query("SELECT s FROM Sala s WHERE s.room_number IN (SELECT e.sala FROM Evento e WHERE e.spettacolo = ?1)")
     List<Sala> findSalaBySpettacolo (Spettacolo id_spettacolo);
 
 }

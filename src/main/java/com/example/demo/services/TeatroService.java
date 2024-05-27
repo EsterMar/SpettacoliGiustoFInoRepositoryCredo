@@ -25,8 +25,8 @@ public class TeatroService {
     }
 
     @Transactional(readOnly = true)
-    public List<Teatro> getTheatres (Spettacolo id_spettacolo, String city){
-        return teatroRepository.findAllBySpettacoloAndCity(id_spettacolo, city);
+    public List<Teatro> getTheatres (String city){
+        return teatroRepository.findAllByCity(city);
     }
 
     //lascio?

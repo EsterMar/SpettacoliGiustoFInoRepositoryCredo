@@ -12,12 +12,20 @@ import java.util.List;
 @Repository
 public interface SpettacoloRepository extends JpaRepository<Spettacolo, Integer> {
 
+    //dovrebbe essere corretto
+
     List<Spettacolo> findByTitle(String title);
     List<Spettacolo> findByGenre(String genre);
+    List<Spettacolo> findAll();
+    @Query("SELECT s FROM Spettacolo s WHERE s.teatro.id= :id_teatro")
+    List<Spettacolo> findByIdTeatro(int id_teatro);
 
-    @Query("SELECT s FROM Spettacolo s WHERE s.first_day > :firstDay")
-    List<Spettacolo> findByFirstDayAfter(@Param("firstDay") Date firstDay);
 
+    @Query("SELECT s FROM Spettacolo s WHERE s.first_day <= :firstDay and :firstDay<=s.last_day")
+    List<Spettacolo> findByFirstDayAfter(Date firstDay); //trovo gli spettacoli che vi sono dopo quella data (data compresa)
+
+    @Query("SELECT SUM(s.price * :numBiglietti) FROM Spettacolo s WHERE s.id=:id_spettacolo")
+    float calculatePriceByTickets(int id_spettacolo, int numBiglietti);
 
 
 

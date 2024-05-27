@@ -1,13 +1,13 @@
 package com.example.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-
 import jakarta.persistence.*;
 import java.util.List;
 
 @Data
 @Entity
-@Table(name= "teatro", schema= "spettacoliTeatrali")
+@Table(name= "teatro")
 public class Teatro {
 
     @Id
@@ -31,9 +31,15 @@ public class Teatro {
     private String telephone_number;
 
     @OneToMany(mappedBy = "teatro", cascade= CascadeType.MERGE)
+    @JsonIgnore
     private List<Sala> rooms;
 
-    @ManyToOne
-    @JoinColumn(name= "spettacolo")
-    private Spettacolo spettacolo;
+    @OneToMany(mappedBy = "teatro", cascade= CascadeType.MERGE)
+    @JsonIgnore
+    private List<Spettacolo> spettacolo;
+
+//      @ManyToOne
+    //    @JoinColumn(name= "spettacolo")
+  //  private Spettacolo spettacolo;
+
 }

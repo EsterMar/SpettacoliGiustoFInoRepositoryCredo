@@ -21,7 +21,7 @@ public class TeatroController {
     @Autowired
     private TeatroService teatroService;
 
-    @GetMapping("/{spettacolo}")
+    @GetMapping("/shows")
     public ResponseEntity getTheater(@RequestBody @Valid Spettacolo spettacolo) {
         try {
             List<Teatro> theaters = teatroService.getTheatres(spettacolo);
@@ -35,7 +35,7 @@ public class TeatroController {
 
 
     @GetMapping("/search/by_city")
-    public List<Teatro> getTheater (@RequestBody @Valid Spettacolo spettacolo, @RequestParam String city){
-        return teatroService.getTheatres(spettacolo,city);
+    public List<Teatro> getTheater (@RequestParam String city){
+        return teatroService.getTheatres(city);
     }
 }

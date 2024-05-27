@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name= "Biglietto", schema= "spettacoliTeatrali")
+@Table(name= "biglietto")
 public class Biglietto {
 
     @Id
@@ -23,7 +23,6 @@ public class Biglietto {
 
     @ManyToOne
     @JoinColumn(name= "cliente")
-    @JsonIgnore
     private Cliente cliente;
 
     @ManyToOne(cascade= CascadeType.MERGE)
@@ -32,5 +31,17 @@ public class Biglietto {
 
     @OneToOne
     @JoinColumn(name= "posto")
+    @JsonIgnore
     private Posto posto;
+
+    @Override
+    public String toString() {
+        return "Biglietto{" +
+                "id=" + id +
+                ", price=" + price +
+                ", cliente=" + (cliente != null ? cliente.getId() : null) +
+                ", evento=" + (evento != null ? evento.getId() : null) +
+                ", posto=" + (posto != null ? posto.getId() : null) +
+                '}';
+    }
 }

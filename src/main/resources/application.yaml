@@ -1,14 +1,66 @@
 spring:
   security:
     oauth2:
-      resourceserver:
+       resourceserver:
         jwt:
-          jwk-set-uri: http://localhost:8443/auth/realms/rendicontation/protocol/openid-connect/certs
-          issuer-uri: http://localhost:8443/auth/realms/rendicontation
+          issuer-uri: http://localhost:8080/realms/SpringBootKeycloak
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+       client:
+         registration:
+           keycloak:
+             client-id: login-app
+             client-secret: NWmFPUVLk9KVTMYhDEoTIba6oOVlUwlw
+             scope: openid
+             authorization-grant-type: clients_credentials
+
+         provider:
+           keycloak:
+             authorization-uri: http://localhost:8080/realms/SpringBootKeycloak/protocol/openid-connect/auth
+             token-uri: http://localhost:8080/realms/SpringBootKeycloak/protocol/openid-connect/token
+             user-info-uri: http://localhost:8080/realms/SpringBootKeycloak/protocol/openid-connect/userinfo
+             jwk-set-uri: http://localhost:8080/realms/SpringBootKeycloak/protocol/openid-connect/certs
+
+
   datasource:
-    url: jdbc:postgresql://localhost:5432/spettacoliTeatrali
-    username: postgres
-    password: cROCARINAPAH2!
+    url: jdbc:postgresql://localhost:5432/events
+    username: 'postgres'
+    password: 'cROCARINAPAH2!'
     driver-class-name: org.postgresql.Driver
+
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      default_schema: theatre
+      ddl-auto: update
+    properties:
+      hibernate:
+        default_schema: theatre
+        ddl-auto: update
+
+  #logging:
+   # config: classpath:logback-spring.xml
+    #file:
+     # path: /dataSources/${spring.application.name}
+    #level.web:
+     # org.springframework: trace
+
+server:
+  port: 8081
+
+jwt:
+  auth:
+    converter:
+      resource-id: login-app
+      principle-attribute: preferred_username
+
+
+
+
+
+
+
+
+
+
+
+

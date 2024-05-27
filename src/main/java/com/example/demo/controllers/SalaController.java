@@ -7,10 +7,7 @@ import com.example.demo.services.SalaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.validation.Valid;
@@ -23,10 +20,7 @@ public class SalaController {
     private SalaService salaService;
 
 
-    @GetMapping("/seats")
-    public int getNumberAllSeats(@RequestBody @Valid Sala id_sala){
-        return salaService.numberOfAllTheSeats(id_sala);
-    }
+
 
     @GetMapping("/Where/spectacles")
     public ResponseEntity getPlaceOfSpectacle(@RequestBody @Valid Spettacolo id_spettacolo){
@@ -36,4 +30,14 @@ public class SalaController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The spactacle"+id_spettacolo+"not found", e);
         }
     }
+
+    @GetMapping("/seats")
+    public int getNumberAllSeats(@RequestParam int id_sala){
+        Sala sala = salaService.getById(id_sala);
+        if (sala == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Room "+sala+" not found");
+        }
+        return salaService.numberOfAllTheSeats(sala);
+    }
+
 }

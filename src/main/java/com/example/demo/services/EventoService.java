@@ -1,9 +1,11 @@
 package com.example.demo.services;
 
 import com.example.demo.entities.Evento;
+import com.example.demo.entities.Posto;
 import com.example.demo.entities.Spettacolo;
 import com.example.demo.exceptions.DateWrongRangeException;
 import com.example.demo.repositories.EventoRepository;
+import com.example.demo.repositories.PostoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -39,8 +41,22 @@ public class EventoService {
     }
 
     @Transactional(readOnly = true)
-    public List<Evento> showAllEventsByShow(Spettacolo id_spettacolo){
-        return eventoRepository.findAllBySpettacolo(id_spettacolo);
+    public List<Evento> showAllEvents(){
+        return eventoRepository.findAll();
+    }
+    @Transactional(readOnly = true)
+    public List<Evento> showAllEventsByShow(String title){
+        return eventoRepository.findAllByIdSpettacolo(title);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Evento> showAllEventsBySeat(Posto id_posto){
+        return eventoRepository.findAllByPosto(id_posto);
+    }
+
+    @Transactional(readOnly = true)
+    public Evento showAllEventsByIdEvents(int id_evento){
+        return eventoRepository.findAllById(id_evento);
     }
 
     @Transactional(readOnly = true)
@@ -64,6 +80,7 @@ public class EventoService {
             return s.getCapacity()>postoRepository.countOccupiedSeats(s);
         return false;
     }*/
+
 
 
 }

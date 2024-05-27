@@ -29,4 +29,10 @@ public class SalaService {
         return id_sala.getCapacity();
     }
 
+    @Transactional(readOnly = true)
+    public Sala getById(int id) {
+        return salaRepository.findById(id);
+    }
+
+
 }

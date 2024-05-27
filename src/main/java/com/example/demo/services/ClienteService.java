@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class UserService {
+public class ClienteService {
 
     @Autowired
     private ClienteRepository clienteRepository;
@@ -20,7 +20,15 @@ public class UserService {
     public Cliente registerCliente(Cliente id_cliente) throws MailAlreadyExistsExcpetion {
         if (clienteRepository.existsByEmail(id_cliente.getEmail()))
             throw new MailAlreadyExistsExcpetion();
-        return clienteRepository.save(id_cliente); //sempre buono riportare ciò che è stato aggiunto al cliente
+        //creo il nuovo cliente sulla base del cliente passato come parametro
+        Cliente cl= new Cliente();
+        cl.setId(id_cliente.getId());
+        cl.setEmail(id_cliente.getEmail());
+        cl.setAddress(id_cliente.getAddress());
+        cl.setName(id_cliente.getName());
+        cl.setSurname(id_cliente.getSurname());
+        cl.setTelephone_number(id_cliente.getTelephone_number());
+        return clienteRepository.save(cl); //sempre buono riportare ciò che è stato aggiunto al cliente
     }
 
     @Transactional (readOnly = true)
