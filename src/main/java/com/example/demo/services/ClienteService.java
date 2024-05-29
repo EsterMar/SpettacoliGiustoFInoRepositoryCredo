@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.exceptions.ClientDoesNotExistException;
 import com.example.demo.exceptions.MailAlreadyExistsExcpetion;
 import com.example.demo.entities.Cliente;
 import com.example.demo.repositories.ClienteRepository;
@@ -34,5 +35,10 @@ public class ClienteService {
     @Transactional (readOnly = true)
     public List<Cliente> showAllTheClient() {
         return clienteRepository.findAll();
+    }
+
+    @Transactional (readOnly = true)
+    public Cliente showClientByEmail(String email) throws ClientDoesNotExistException {
+        return clienteRepository.findByEmail(email);
     }
 }

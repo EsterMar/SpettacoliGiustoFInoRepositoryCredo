@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 @Service
 public class PostoService {
@@ -40,7 +42,7 @@ public class PostoService {
     }
 
     @Transactional(readOnly=true)
-    public int FreeSeats(Integer id_sala){
+    public int countFreeSeats(Integer id_sala){
         Sala sala = salaRepository.findById(id_sala).orElse(null);
         if (sala != null) {
             return sala.getCapacity() - postoRepository.countOccupiedSeats(id_sala);
@@ -49,6 +51,10 @@ public class PostoService {
         }
     }
 
+    @Transactional(readOnly=true)
+    public List<Integer> getAvailableSeats(int id_sala){
+        return postoRepository.getFreeSeats(id_sala);
+    }
 
     @Transactional(readOnly=false)
     public Posto addSeat(ParamAddTicket pat) throws TheSeatIsNotAvailableException, TheEventIsSoldOutException {
@@ -60,17 +66,21 @@ public class PostoService {
         Cliente id_cliente= pat.getCliente();
        System.out.println("Il cliente è: " + id_cliente);
        System.out.println("Il posto dell'evento è il seguente: "+id_evento.getPosto().toString());
-       Posto seat= id_evento.getPosto();
-       System.out.println("Il posto salvato è il seguente: "+seat.toString());
+      /* Posto seat= id_evento.getPosto();
+       System.out.println("Il posto salvato è il seguente: "+seat.toString());*/
         float price= pat.getTicketPrice();
+        System.out.println("Il prezzo è il seguente: "+price);
+        String clientName= pat.getClientName();
+        System.out.println("Il nome del cliente è il seguente: "+clientName);
+
 
         if(!eventoService.isAvailable(id_evento.getId()))
             throw new TheEventIsSoldOutException();
-        if (!seat.isAvailable()) {
+        if (!posto.isAvailable()) {
             throw new TheSeatIsNotAvailableException();
         }
-        bigliettoService.chooseSeat(id_cliente, seat, id_evento, price);
-        return seat;
+        bigliettoService.chooseSeat(id_cliente, posto, id_evento, clientName, price);
+        return posto;
     }
 
 

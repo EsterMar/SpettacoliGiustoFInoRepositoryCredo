@@ -13,12 +13,14 @@ spring:
              scope: openid
              authorization-grant-type: clients_credentials
 
+
          provider:
            keycloak:
              authorization-uri: http://localhost:8080/realms/SpringBootKeycloak/protocol/openid-connect/auth
              token-uri: http://localhost:8080/realms/SpringBootKeycloak/protocol/openid-connect/token
              user-info-uri: http://localhost:8080/realms/SpringBootKeycloak/protocol/openid-connect/userinfo
              jwk-set-uri: http://localhost:8080/realms/SpringBootKeycloak/protocol/openid-connect/certs
+
 
 
   datasource:
@@ -52,7 +54,6 @@ jwt:
     converter:
       resource-id: login-app
       principle-attribute: preferred_username
-
 
 
 

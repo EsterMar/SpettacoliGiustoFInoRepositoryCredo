@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.ResponseMessage;
+import com.example.demo.exceptions.ClientDoesNotExistException;
 import com.example.demo.exceptions.MailAlreadyExistsExcpetion;
 import com.example.demo.entities.Cliente;
 import com.example.demo.services.ClienteService;
@@ -10,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.List;
 
 @RestController
@@ -32,6 +35,15 @@ public class ClienteController {
     @GetMapping("/search")
     public List<Cliente> getAll() {
         return clienteService.showAllTheClient();
+    }
+
+    @GetMapping("/by_email")
+    public Cliente getByEmail(String email) {
+        try {
+            return clienteService.showClientByEmail(email);
+        }catch (ClientDoesNotExistException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente non trovato", e);
+        }
     }
 
 }

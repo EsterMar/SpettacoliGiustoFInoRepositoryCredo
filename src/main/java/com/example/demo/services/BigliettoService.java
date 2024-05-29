@@ -83,9 +83,11 @@ public class BigliettoService {
     }
 
     @Transactional(readOnly = false)
-    public Biglietto chooseSeat(Cliente id_cliente, Posto selected_seat, Evento id_evento, float price) throws TheSeatIsNotAvailableException {
+    public Biglietto chooseSeat(Cliente id_cliente, Posto selected_seat, Evento id_evento, String name, float price) throws TheSeatIsNotAvailableException {
         if(!selected_seat.isAvailable())
             throw new TheSeatIsNotAvailableException();
+
+        //float price= id_evento.getSpettacolo().getPrice();
 
         //creo il nuovo biglietto
         Biglietto ticket= new Biglietto();
@@ -93,6 +95,7 @@ public class BigliettoService {
         ticket.setCliente(id_cliente);
         ticket.setPosto(selected_seat);
         ticket.setPrice(price);
+        ticket.setName(name);
 
         //salvo il biglietto
         ticket= bigliettoRepository.save(ticket);

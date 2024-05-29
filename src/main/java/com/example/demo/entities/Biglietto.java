@@ -21,6 +21,10 @@ public class Biglietto {
     @Column(name = "price", nullable = true)
     private float price;
 
+    @Basic
+    @Column(name = "name", nullable = true)
+    private String name;
+
     @ManyToOne
     @JoinColumn(name= "cliente")
     private Cliente cliente;

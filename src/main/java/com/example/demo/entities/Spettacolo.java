@@ -34,7 +34,7 @@ public class Spettacolo {
     private String description;
 
     @Basic
-    @Column (name = "price", nullable = true, length = 500)
+    @Column (name = "price", nullable = true)
     private float price;
 
     @Basic

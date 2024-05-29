@@ -18,8 +18,10 @@ public interface PostoRepository extends JpaRepository<Posto, Integer> {
     List<Posto> findByRowAndSeat(int row_number, int seat_number);
     Posto findById(int posto);
 
+    @Query("SELECT p.id FROM Posto p WHERE p.available = true AND p.sala.room_number = :id_sala")
+    List<Integer> getFreeSeats(int id_sala);
 
     //@Query(" SELECT COUNT(p) FROM Posto p WHERE p.available = false and p.sala = ?1 ")
     @Query("SELECT COUNT(p) FROM Sala s JOIN s.seats p WHERE s.room_number = ?1 and p.available = false")
-    int countOccupiedSeats(Integer sala); //conta il numero di posti occupati nella sala specificata. Da passare in SalaRepository?
+    int countOccupiedSeats(Integer sala); //conta il numero di posti occupati nella sala specificata.
 }

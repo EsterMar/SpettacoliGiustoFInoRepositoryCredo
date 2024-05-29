@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/posto")
 public class PostoController {
@@ -26,17 +28,25 @@ public class PostoController {
 
     @GetMapping("/free")
     public boolean isThereFreeSeats(@RequestParam Integer sala){
-        return postoService.FreeSeats(sala)>0;
+        return postoService.countFreeSeats(sala)>0;
     }
 
     @GetMapping("/seats_by_id")
     public ResponseEntity showSeatsById(@RequestParam int id_posto) {
-        Posto result= postoService.showAllSeatsById(id_posto);
-        if ( result.equals(null)) {
-            return new ResponseEntity<>(new ResponseMessage("No results!"), HttpStatus.OK);
+        Posto result = postoService.showAllSeatsById(id_posto);
+        if (result == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseMessage("Posto non trovato"));
         }
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return ResponseEntity.ok().body(result);
     }
+
+    @GetMapping("/get_free_seats")
+    public List<Integer> getAllFreSeats(@Valid @RequestParam int id_sala){
+        return postoService.getAvailableSeats(id_sala);
+    }
+
+
+
 
  /*   @GetMapping("/free2")
     public boolean isThereFreeSeats2(){
