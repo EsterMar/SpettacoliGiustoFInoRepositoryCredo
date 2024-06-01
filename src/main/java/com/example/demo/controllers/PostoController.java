@@ -11,6 +11,7 @@ import org.antlr.v4.runtime.misc.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
@@ -31,6 +32,7 @@ public class PostoController {
         return postoService.countFreeSeats(sala)>0;
     }
 
+
     @GetMapping("/seats_by_id")
     public ResponseEntity showSeatsById(@RequestParam int id_posto) {
         Posto result = postoService.showAllSeatsById(id_posto);
@@ -46,15 +48,6 @@ public class PostoController {
     }
 
 
-
-
- /*   @GetMapping("/free2")
-    public boolean isThereFreeSeats2(){
-        Sala x = new Sala();
-        x.setRoom_number(0);
-        return postoService.FreeSeats(x)>0;
-    }
-*/
     @GetMapping("/occupied")
     public int getOccupiedSeats(@RequestParam Integer sala){
         return postoService.OccupiedSeats(sala);
