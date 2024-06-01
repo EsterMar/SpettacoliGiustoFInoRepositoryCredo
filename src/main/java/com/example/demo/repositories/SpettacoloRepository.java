@@ -1,6 +1,8 @@
 package com.example.demo.repositories;
 
 import com.example.demo.entities.Spettacolo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -26,6 +28,9 @@ public interface SpettacoloRepository extends JpaRepository<Spettacolo, Integer>
 
     @Query("SELECT SUM(s.price * :numBiglietti) FROM Spettacolo s WHERE s.id=:id_spettacolo")
     float calculatePriceByTickets(int id_spettacolo, int numBiglietti);
+
+    @Query("SELECT s FROM Spettacolo s WHERE s.teatro.id= :id_teatro")
+    Page<Spettacolo> findAllByTheaterId(int id_teatro, Pageable pageable);
 
 
 
